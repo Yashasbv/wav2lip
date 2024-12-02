@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload MP3 and MP4 Files</title>
+    <style>
+        html,
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+        }
+
+        body {
+            background-image: url("https://img.freepik.com/free-vector/line-art-wavy-background-colorful_677411-1624.jpg?t=st=1730688039~exp=1730691639~hmac=1be15672e38e276dae24c1905b2c6231dac57be6725f07f80187db1f64b4c493&w=1060");
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .page {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            width: 100%;
+        }
+
+        .page-header {
+            font-size: 36px;
+            padding: 12px;
+            box-shadow: 0px 4px 8px rgba(255, 255, 255, 0.1);
+            color: #f5f5f5;
+        }
+
+        .upload-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: auto;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .upload-container h2 {
+            margin: 0 0 10px;
+            font-size: 24px;
+        }
+
+        .upload-container input[type="file"] {
+            display: none;
+        }
+
+        .upload-label {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #ffffff;
+            cursor: pointer;
+            border-radius: 4px;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+
+        h2 {
+            color: #f5f5f5;
+        }
+
+        .upload-label:hover {
+            background-color: #0056b3;
+        }
+
+        .upload-info {
+            margin: 15px 0;
+            color: #f5f5f5;
+            font-size: 14px;
+        }
+
+        .submit-btn {
+            background-color: #28a745;
+            color: #ffffff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .submit-btn:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page">
+        <div class="page-header">
+            Wav2Lip
+        </div>
+        <div class="upload-container">
+            <h2>Upload WAV and MP4 File</h2>
+            <form id="uploadForm" method="POST" enctype="multipart/form-data" action="upload">
+                <label for="wavUpload" class="upload-label">Choose WAV File</label>
+                <input type="file" id="wavUpload" name="wavUpload" accept=".wav" required>
+                <label for="mp4Upload" class="upload-label">Choose MP4 File</label>
+                <input type="file" id="mp4Upload" name="mp4Upload" accept=".mp4" required>
+                <div class="upload-info" id="fileInfo"></div>
+                <button type="submit" class="submit-btn">Upload</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const wavUpload = document.getElementById('wavUpload');
+        const mp4Upload = document.getElementById('mp4Upload');
+        const fileInfo = document.getElementById('fileInfo');
+        const maxSize = 10 * 1024 * 1024;
+
+        wavUpload.addEventListener('change', function () {
+            const file = this.files[0];
+            if (file) {
+                if (!['audio/wav'].includes(file.type)) {
+                    fileInfo.textContent = 'Error: Unsupported file type. Please upload a WAV file.';
+                    wavUpload.value = '';
+                } else if (file.size > maxSize) {
+                    fileInfo.textContent = 'Error: File size exceeds 10 MB limit.';
+                    wavUpload.value = '';
+                } else {
+                    fileInfo.textContent = `Selected file: ${file.name}`;
+                }
+            }
+        });
+
+        mp4Upload.addEventListener('change', function () {
+            const file = this.files[0];
+            if (file) {
+                if (!['video/mp4'].includes(file.type)) {
+                    fileInfo.textContent = 'Error: Unsupported file type. Please upload a MP4 file.';
+                    mp4Upload.value = '';
+                } else if (file.size > maxSize) {
+                    fileInfo.textContent = 'Error: File size exceeds 10 MB limit.';
+                    mp4Upload.value = '';
+                } else {
+                    fileInfo.textContent = `Selected file: ${file.name}`;
+                }
+            }
+        });
+    </script>
+
+</body>
+
+</html>
